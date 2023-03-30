@@ -10,6 +10,10 @@ def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
 
+    Returns:
+        (str) city - name of the city to analyze
+        (str) month - name of the month to filter by, or "all" to apply no month filter
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
     """
     print('Hello! Let\'s explore some US bikeshare data!')
     # TO DO: get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
@@ -38,6 +42,12 @@ def load_data(city, month, day):
     """
     Loads data for the specified city and filters by month and day if applicable.
 
+    Args:
+        (str) city - name of the city to analyze
+        (str) month - name of the month to filter by, or "all" to apply no month filter
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+    Returns:
+        df - Pandas DataFrame containing city data filtered by month and day
     """
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
@@ -167,7 +177,7 @@ def user_stats(df):
     
 
 def display_raw_data(df):
-    """Asks user if they want to see any raw data."""
+    """Asks user if they want to see any raw data. If affirmative, it will display the first 5 rows of data and ask user again if they want to see another 5 rows. It ill iterate throgh the whole data set until the user doesn't want to see anymore data or all data has been displayed"""
     
     i = 0
     raw = input('\nWould you like to see any raw data? Please enter yes or no.\n').lower()
