@@ -7,7 +7,7 @@ CITY_DATA = { 'chicago': 'chicago.csv',
               'washington': 'washington.csv' }
 
 def get_filters():
-    
+   
     print('Hello! Let\'s explore some US bikeshare data!')
     
     city = input('\nWould you like to see data for chicago, new york city, or washington?\n').lower()
@@ -16,11 +16,15 @@ def get_filters():
         city = input('\nWould you like to see data for chicago, new york city, or washington?\n').lower()
         
     
-   
+    
     month = input('\nPlease select a month between january and june, or type "all" to see data for the six months\n').lower()
     while month != 'all' and month != 'january' and month != 'february' and month != 'march' and month != 'april' and month != 'may' and month != 'june':
-        print('Oops! choice not available, please try again!')
-        month = input('\nPlease select a month between january and june, or type "all" to see data for the six months\n').lower()
+        if month == 'july' or month == 'august' or month == 'september' or month == 'october' or month == 'november' or month == 'december':
+            print('Sorry, no data available for that month, please try again.')
+            month = input('\nPlease select a month between january and june, or type "all" to see data for the six months\n').lower()
+        else:      
+            print('Oops! choice not available, please try again!')
+            month = input('\nPlease select a month between january and june, or type "all" to see data for the six months\n').lower()
             
    
     day = input('\nPlease select a day, or type "all"\n').lower()
@@ -32,11 +36,10 @@ def get_filters():
     return city, month, day
 
 def load_data(city, month, day):
-    
-    
+   
     df = pd.read_csv(CITY_DATA[city])
 
-    
+   
     df['Start Time'] = pd.to_datetime(df['Start Time'])
 
    
@@ -49,7 +52,7 @@ def load_data(city, month, day):
         months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
 
-        
+       
         df = df[df['month'] == month]
 
    
@@ -65,7 +68,7 @@ def time_stats(df):
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
-   
+    
     df['Start Time'] = pd.to_datetime(df['Start Time'])
     df['month'] = df['Start Time'].dt.month
     popular_month = df['month'].mode()[0]
@@ -91,11 +94,12 @@ def time_stats(df):
 
 
 def station_stats(df):
-   
+    
+
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-   
+    
     popular_start = df['Start Station'].mode()[0]
     print('Most commonly used start station:', popular_start)
 
@@ -103,7 +107,7 @@ def station_stats(df):
     popular_end = df['End Station'].mode()[0]
     print('Most commonly used end station:', popular_end)
 
-    
+   
     popular_trip = df.groupby(['Start Station', 'End Station']).size().idxmax()
     print('Most common trip:', popular_trip)
 
@@ -113,6 +117,7 @@ def station_stats(df):
         
 def trip_duration_stats(df):
    
+
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
@@ -161,7 +166,7 @@ def user_stats(df):
     print('-'*40)
 
 def display_raw_data(df):
-   
+    
     
     i = 0
     raw = input('\nWould you like to see any raw data? Please enter yes or no.\n').lower()
