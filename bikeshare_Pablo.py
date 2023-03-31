@@ -9,14 +9,14 @@ CITY_DATA = { 'chicago': 'chicago.csv',
 def get_filters():
    
     print('Hello! Let\'s explore some US bikeshare data!')
-    
+   
     city = input('\nWould you like to see data for chicago, new york city, or washington?\n').lower()
     while city != 'chicago' and city != 'new york city' and city != 'washington':
         print('Oops! looks like we don\'t have data for the city you\'re interested in! please try again!')
         city = input('\nWould you like to see data for chicago, new york city, or washington?\n').lower()
         
     
-    
+   
     month = input('\nPlease select a month between january and june, or type "all" to see data for the six months\n').lower()
     while month != 'all' and month != 'january' and month != 'february' and month != 'march' and month != 'april' and month != 'may' and month != 'june':
         if month == 'july' or month == 'august' or month == 'september' or month == 'october' or month == 'november' or month == 'december':
@@ -26,7 +26,7 @@ def get_filters():
             print('Oops! choice not available, please try again!')
             month = input('\nPlease select a month between january and june, or type "all" to see data for the six months\n').lower()
             
-   
+    
     day = input('\nPlease select a day, or type "all"\n').lower()
     while day != 'all' and day != 'monday' and day != 'tuesday' and day != 'wednesday' and day != 'thursday' and day != 'friday' and day != 'saturday' and day != 'sunday':
         print('Oops! choice not available, please try again!')
@@ -55,9 +55,9 @@ def load_data(city, month, day):
        
         df = df[df['month'] == month]
 
-   
+    
     if day != 'all':
-        
+       
         df = df[df['day_of_week'] == day.title()]
 
     return df
@@ -94,20 +94,20 @@ def time_stats(df):
 
 
 def station_stats(df):
-    
+   
 
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
-    
+   
     popular_start = df['Start Station'].mode()[0]
     print('Most commonly used start station:', popular_start)
 
-    
+   
     popular_end = df['End Station'].mode()[0]
     print('Most commonly used end station:', popular_end)
 
-   
+    
     popular_trip = df.groupby(['Start Station', 'End Station']).size().idxmax()
     print('Most common trip:', popular_trip)
 
@@ -151,7 +151,7 @@ def user_stats(df):
         gender_count = df['Gender'].value_counts()
         print(gender_count)
 
-   
+    
     if 'Birth Year' not in df:
         pass
     else:
@@ -202,10 +202,12 @@ def main():
         user_stats(df)
         display_raw_data(df)
 
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
+        restart = input('\nWould you like to restart? Enter yes or no.\n').lower()
+        while restart != 'yes' and restart != 'no':
+            print('Invalid input. Please enter only yes or no.')
+            restart = input('\nWould you like to restart? Enter yes or no.\n').lower()
+        if restart == 'no':    
             break
-       
 
 
 if __name__ == "__main__":
